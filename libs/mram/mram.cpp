@@ -26,7 +26,9 @@ mram::mram(uint8_t ss_Pin,uint8_t newHoldPin)
 	csPin = ss_Pin;              
 	holdPin = newHoldPin;       
 	digitalWrite(csPin,HIGH);          
-	pinMode(csPin,OUTPUT);             
+	pinMode(csPin,OUTPUT);            
+	pinMode(holdPin,OUTPUT);    
+	digitalWrite(holdPin,HIGH);          
 	SPI.begin();                       
 	#if HEADER_DEBUG
 		Serial.println(".. obj creation completed");
@@ -46,7 +48,9 @@ uint8_t mram::changeDevice  (uint8_t ss_Pin,uint8_t newHoldPin)
 	*/
 	uint8_t temp = csPin;               
 	csPin = ss_Pin;               
-	holdPin = newHoldPin;         
+	holdPin = newHoldPin;       
+	pinMode(holdPin,OUTPUT);    
+	digitalWrite(holdPin,HIGH);       
 	digitalWrite(csPin,HIGH);           
 	pinMode(csPin,OUTPUT);              
 

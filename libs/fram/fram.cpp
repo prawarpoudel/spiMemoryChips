@@ -26,7 +26,9 @@ fram::fram(uint8_t ss_Pin,uint8_t newHoldPin)
 	csPin = ss_Pin;   
 	holdPin = newHoldPin;                 
 	digitalWrite(csPin,HIGH);          
-	pinMode(csPin,OUTPUT);             
+	pinMode(csPin,OUTPUT);       
+	pinMode(holdPin,OUTPUT);    
+	digitalWrite(holdPin,HIGH);           
 	SPI.begin();                       
 	#if HEADER_DEBUG
 		Serial.println(".. obj creation completed");
@@ -48,7 +50,9 @@ uint8_t fram::changeDevice  (uint8_t ss_Pin,uint8_t newHoldPin)
 	csPin = ss_Pin;   
 	holdPin = newHoldPin;                  
 	digitalWrite(csPin,HIGH);           
-	pinMode(csPin,OUTPUT);              
+	pinMode(csPin,OUTPUT);       
+	pinMode(holdPin,OUTPUT);    
+	digitalWrite(holdPin,HIGH);            
 
 	#if HEADER_DEBUG
 		Serial.print("Device changed to ");

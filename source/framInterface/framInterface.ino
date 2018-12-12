@@ -12,7 +12,7 @@ Date: 7/24/3018
 
 //create an object here so that it has global scope throughout this file
 //  -> CS signal is Android pin 9
-fram myfram(9,3);
+fram myfram(9,2);
 
 void setup() 
 {
