@@ -11,8 +11,8 @@ Date: 7/24/3018
 #define DEBUG_PRINT_STATEMENTS 1
 
 //create an object here so that it has global scope throughout this file
-//  -> CS signal is Android pin 9
-mram myMram(9);
+//  -> CS signal is Android pin 10
+mram myMram(10,2);
 
 void setup() 
 {

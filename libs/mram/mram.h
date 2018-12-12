@@ -32,11 +32,11 @@
 class mram {
   public:
     // Initialize and specify the SS pin
-    mram (uint8_t ss_Pin);
+    mram (uint8_t ss_Pin,newHoldPin);
     
     // following function if needed to change the device
     // .. may be needed if multiple devices interfaced
-    uint8_t changeDevice  (uint8_t ss_Pin);
+    uint8_t changeDevice  (uint8_t ss_Pin,newHoldPin);
     
     // following function reads a single character (uint8_t)
     uint8_t readByte   (uint16_t address);

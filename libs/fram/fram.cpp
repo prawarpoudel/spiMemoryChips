@@ -10,7 +10,7 @@
 
 // following is the constructor of hte class;
 // .. the slave is initialized with the pin number argument
-fram::fram(uint8_t ss_Pin)
+fram::fram(uint8_t ss_Pin,uint8_t newHoldPin)
 {
 	/*
 		follwing steps are performed
@@ -19,15 +19,16 @@ fram::fram(uint8_t ss_Pin)
 		-> initialize it as output
 		-> begin SPI engine
 	*/
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.begin(115200);
 		Serial.println("Object Creation..");
 	#endif
-	csPin = ss_Pin;                    
+	csPin = ss_Pin;   
+	holdPin = newHoldPin;                 
 	digitalWrite(csPin,HIGH);          
 	pinMode(csPin,OUTPUT);             
 	SPI.begin();                       
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.println(".. obj creation completed");
 	#endif
 
@@ -35,7 +36,7 @@ fram::fram(uint8_t ss_Pin)
 
 // following function if needed to change the device
 // .. may be needed if multiple devices interfaced
-uint8_t fram::changeDevice  (uint8_t ss_Pin)
+uint8_t fram::changeDevice  (uint8_t ss_Pin,uint8_t newHoldPin)
 {
 	/*
 		to change the pin, following steps are performed
@@ -44,11 +45,12 @@ uint8_t fram::changeDevice  (uint8_t ss_Pin)
 		-> set the direction as output
 	*/
 	uint8_t temp = csPin;               
-	csPin = ss_Pin;                     
+	csPin = ss_Pin;   
+	holdPin = newHoldPin;                  
 	digitalWrite(csPin,HIGH);           
 	pinMode(csPin,OUTPUT);              
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Device changed to ");
 		Serial.println(ss_Pin);
 	#endif
@@ -67,7 +69,7 @@ uint8_t fram::readByte(uint16_t address)
 	uint8_t dataByte;
 	readBuffer(address, (char*) &dataByte, 1);
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Data byte read from memory address ");
 		Serial.print(address);
 		Serial.print(" : ");
@@ -86,7 +88,7 @@ void fram::writeByte(uint16_t address, uint8_t dataByte)
 	*/
 	writeBuffer(address, (char*) &dataByte, 1);
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Data byte written to memory address ");
 		Serial.print(address);
 		Serial.print(" : ");
@@ -106,7 +108,7 @@ void fram::readBuffer(uint16_t address, char *buffer, uint16_t length)
 	*/
 	digitalWrite(csPin, LOW);
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Buffer reading initiated from address : ");
 		Serial.println(address);
 	#endif
@@ -115,7 +117,7 @@ void fram::readBuffer(uint16_t address, char *buffer, uint16_t length)
 	for (uint16_t i = 0; i < length; i++) buffer[i] = SPI.transfer(0x00);
 	digitalWrite(csPin, HIGH);
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Buffer reading completed of length: ");
 		Serial.println(length);
 	#endif
@@ -133,7 +135,7 @@ void fram::writeBuffer(uint16_t address, char *buffer, uint16_t length)
 	*/
 	writeEnable();
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Buffer writing initiated from address : ");
 		Serial.println(address);
 	#endif
@@ -143,7 +145,7 @@ void fram::writeBuffer(uint16_t address, char *buffer, uint16_t length)
 	for (uint16_t i = 0; i < length; i++) SPI.transfer(buffer[i]);
 	digitalWrite(csPin, HIGH);
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Buffer writing completed of length: ");
 		Serial.println(length);
 	#endif
@@ -157,7 +159,7 @@ void fram::fillBytes(uint16_t address, uint8_t value, uint16_t length) {
 	*/
 	writeEnable();
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Buffer filling initiated from address : ");
 		Serial.println(address);
 	#endif
@@ -167,7 +169,7 @@ void fram::fillBytes(uint16_t address, uint8_t value, uint16_t length) {
 	for (uint16_t i = 0; i < length; i++) SPI.transfer(value);
 	digitalWrite(csPin, HIGH);
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("Buffer filling completed of length: ");
 		Serial.println(length);
 	#endif
@@ -184,7 +186,7 @@ void fram::setAddressMode(uint16_t address, uint8_t command)
 		modification can be done to send 16bit address at once
 	*/
 
-	#ifdef HEADER_DEBUG
+	#if HEADER_DEBUG
 		Serial.print("initiating command : ");
 		Serial.println(command);
 	#endif

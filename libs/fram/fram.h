@@ -18,7 +18,7 @@
 
 #include <SPI.h>
 
-#define HEADER_DEBUG 1
+#define HEADER_DEBUG 0
 
 // Command Codes; Please refer to the datasheet at
 // https://download.mikroe.com/documents/datasheets/MB85RS256A.pdf
@@ -31,12 +31,12 @@
 
 class fram {
   public:
-    // Initialize and specify the SS pin
-    fram (uint8_t ss_Pin);
+    // Initialize and specify the SS pin and corresponding hold pin
+    fram (uint8_t ss_Pin,uint8_t newHoldPin);
     
     // following function if needed to change the device
     // .. may be needed if multiple devices interfaced
-    uint8_t changeDevice  (uint8_t ss_Pin);
+    uint8_t changeDevice  (uint8_t ss_Pin,uint8_t newHoldPin);
     
     // following function reads a single character (uint8_t)
     uint8_t readByte   (uint16_t address);
@@ -55,7 +55,7 @@ class fram {
     
   private:
   	//CS Pin of the SPI device connected right now
-    uint8_t csPin;
+    uint8_t csPin,holdPin;
     //folllowing sets the command to "mode" and sends "address" as the concerned address
     void setAddressMode(uint16_t address, uint8_t mode);
 

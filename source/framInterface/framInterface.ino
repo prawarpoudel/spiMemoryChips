@@ -8,16 +8,16 @@ Date: 7/24/3018
 ****************************************************************************/
 #include <fram.h>
 
-#define DEBUG_PRINT_STATEMENTS 1
+#define DEBUG_PRINT_STATEMENTS 0
 
 //create an object here so that it has global scope throughout this file
 //  -> CS signal is Android pin 9
-fram myfram(9);
+fram myfram(9,3);
 
 void setup() 
 {
   Serial.begin(115200);     //initiate serial communication @ 115200 bps
-  #ifdef DEBUG_PRINT_STATEMENTS
+  #if DEBUG_PRINT_STATEMENTS
     Serial.println("Serial Communication Initiated");
   #endif
 
