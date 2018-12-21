@@ -32,7 +32,7 @@
 class mram {
   public:
     // Initialize and specify the SS pin
-    mram (uint8_t ss_Pin,newHoldPin);
+    mram (uint8_t ss_Pin, uint8_t newHoldPin);
     
     // following function if needed to change the device
     // .. may be needed if multiple devices interfaced
@@ -52,10 +52,14 @@ class mram {
     
     //fill "length" bytes in memory starting at "address" all with "value"
     void fillBytes  (uint16_t address, uint8_t value, uint16_t length);
+
+    uint8_t readByteEffecient(uint16_t address);
+
+    void writeByteEffecient(uint16_t address,uint8_t value);
     
   private:
   	//CS Pin of the SPI device connected right now
-    uint8_t csPin;
+    uint8_t csPin,holdPin;
     //folllowing sets the command to "mode" and sends "address" as the concerned address
     void setAddressMode(uint16_t address, uint8_t mode);
 

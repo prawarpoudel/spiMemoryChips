@@ -83,6 +83,33 @@ uint8_t mram::readByte(uint16_t address)
 	return dataByte;
 }
 
+uint8_t mram::readByteEffecient(uint16_t address)
+{
+	digitalWrite(csPin, LOW);
+	SPI.transfer(READ);
+	SPI.transfer(&address,2);
+	uint8_t myByte  = SPI.transfer(0x00);
+	digitalWrite(csPin, HIGH);
+	return myByte;
+}
+
+void mram::writeByteEffecient(uint16_t address,uint8_t value)
+{
+	digitalWrite(csPin, LOW);
+	SPI.transfer(WRITE_EN);	
+	digitalWrite(csPin, HIGH);
+
+	digitalWrite(csPin, LOW);
+	SPI.transfer(READ);
+	SPI.transfer(&address,2);
+	SPI.transfer(value);
+	digitalWrite(csPin, HIGH);
+
+	digitalWrite(csPin, LOW);
+	SPI.transfer(WRITE_DN);	
+	digitalWrite(csPin, HIGH);
+}
+
 // .. write just one byte
 void mram::writeByte(uint16_t address, uint8_t dataByte) 
 {
